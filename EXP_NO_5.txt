@@ -1,0 +1,195 @@
+/* Experiment No. 5
+Hash Table with Chaining
+Implement a hash table of size 10 using division method as hash function.
+Handle collisions using chaining (linked lists).
+Operations:
+• Insert(key, value)
+• Search(key)
+• Delete(key)
+• Display table
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define SIZE 10
+
+// Node structure for chaining (linked list node)
+struct Node
+{
+    int key;
+    char value[100];
+    struct Node* next;
+};
+
+// Hash table as an array of pointers to linked lists
+struct Node* table[SIZE];
+
+// Function prototypes
+int hash(int key);
+void insert(int key, char value[]);
+void search(int key);
+void deleteKey(int key);
+void display();
+
+int main()
+{
+    int choice;
+    int key;
+    char value[100];
+    char ans;
+
+    // Initialize table with NULL (empty lists)
+    for (int i = 0; i < SIZE; i++)
+        table[i] = NULL;
+
+    do {
+        printf("\n***** Hash Table Menu (Chaining) *****\n");
+        printf("1. Insert\n2. Search\n3. Delete\n4. Display\n5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                // Insert new key-value pair
+                printf("\nEnter key: ");
+                scanf("%d", &key);
+                printf("Enter value: ");
+                scanf("%s", value);
+                insert(key, value);
+                break;
+
+            case 2:
+                // Search for a key
+                printf("\nEnter key to search: ");
+                scanf("%d", &key);
+                search(key);
+                break;
+
+            case 3:
+                // Delete a key
+                printf("\nEnter key to delete: ");
+                scanf("%d", &key);
+                deleteKey(key);
+                break;
+
+            case 4:
+                // Display the full table
+                display();
+                break;
+
+            case 5:
+                printf("\nExiting...\n");
+                exit(0);
+
+            default:
+                printf("\nInvalid choice!\n");
+        }
+
+        printf("\nDo you want to continue (y/n): ");
+        scanf(" %c", &ans);
+
+    } while (ans == 'y' || ans == 'Y');
+
+    return 0;
+}
+
+int hash(int key)
+{
+    return key % SIZE;  // remainder when divided by table size
+}
+
+// Insert key-value pair (chaining)
+void insert(int key, char value[])
+{
+    int index = hash(key);
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->key = key;
+    strcpy(newNode->value, value);
+    newNode->next = NULL;
+
+    if (table[index] == NULL)
+    {
+        table[index] = newNode;  // If bucket is empty, insert as first node
+    }
+    else
+    {
+        struct Node* temp = table[index];
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+    printf("Inserted key %d at index %d\n", key, index);
+}
+
+// Search for a key
+void search(int key)
+{
+    int index = hash(key);
+    struct Node* temp = table[index];
+
+    // Traverse the linked list at that index
+    while (temp != NULL)
+    {
+        if (temp->key == key)
+        {
+            printf("Key %d found at index %d with value: %s\n", key, index, temp->value);
+            return;
+        }
+        temp = temp->next;
+    }
+    printf("Key %d not found!\n", key);
+}
+
+// Delete a key
+void deleteKey(int key)
+{
+    int index = hash(key);
+    struct Node* temp = table[index];
+    struct Node* prev = NULL;
+
+    // Traverse linked list
+    while (temp != NULL)
+    {
+        if (temp->key == key)
+        {
+            // If node to delete is first node
+            if (prev == NULL)
+            {
+                table[index] = temp->next;
+            }
+            else
+            {
+                prev->next = temp->next;
+            }
+            free(temp);
+            printf("Key %d deleted!\n", key);
+            return;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+    printf("Key %d not found!\n", key);
+}
+
+// Display hash table
+void display()
+{
+    printf("\nHash Table:\n");
+    for (int i = 0; i < SIZE; i++)
+    {
+        printf("Index %d: ", i);
+        struct Node* temp = table[i];
+        if (temp == NULL)
+        {
+            printf("NULL");
+        }
+        while (temp != NULL) {
+            printf(" -> [Key: %d, Value: %s]", temp->key, temp->value);
+            temp = temp->next;
+        }
+        printf("\n");
+    }
+}
