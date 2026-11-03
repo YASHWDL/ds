@@ -1,7 +1,4 @@
-# Combine Linear and Binary Search Program
-# Name : Pragati Shivaji Dhaygude
-# Div  : 'B'
-# Roll No : 281
+
 
 def linear_search(a, x):
     for i in range(len(a)):
