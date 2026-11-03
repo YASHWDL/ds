@@ -1,8 +1,4 @@
-#Program:
-#Implementing a real-time undo/redo system for a text editing application using a Stack data structure.
-#Name : Pragati Shivaji Dhaygude
-#Roll No : 281
-#Div : "B"
+
 
 class TextEditor:
     def __init__(self):
