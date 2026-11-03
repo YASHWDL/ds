@@ -1,7 +1,4 @@
-# Library Book Borrowing Management
-# Name : Pragati Dhaygude
-# Roll No : 281
-# Division : 'B'
+
 
 borrow_records = {
     "Pragati": ["Book A", "Book B"],
