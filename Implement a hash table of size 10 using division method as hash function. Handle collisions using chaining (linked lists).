@@ -1,13 +1,4 @@
-/* Experiment No. 5
-Hash Table with Chaining
-Implement a hash table of size 10 using division method as hash function.
-Handle collisions using chaining (linked lists).
-Operations:
-• Insert(key, value)
-• Search(key)
-• Delete(key)
-• Display table
-*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
